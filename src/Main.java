@@ -6,44 +6,120 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void maisPopular() throws IOException{
+    public static void listarPadrinhos() throws IOException{
 
         File file = new File("./files/interacoes.csv");
 
         Scanner sc = new Scanner(file);
+        Scanner input = new Scanner(System.in);
 
-        if (sc.hasNextLine()){
-            sc.nextLine();
-        }
+        boolean exists = false;
+        int padrinhosCounter = 0;
+        String clientID = "";
+        Double valorPago = 0.;
+        String eventName = "";
+        String clientName = "";
+        String clientEmail = "";
 
-        int counterAnimal = 0;
+        System.out.print("Introduza o ID do animal: ");
+        String id = input.nextLine();
 
-        while(sc.hasNextLine()){
-            sc.nextLine();
-            counterAnimal++;
-        }
-
-        String [] arrayAnimal = new String [counterAnimal];
-
-        int [] arrayIterations;
-
-        Scanner sc2 = new Scanner(file);
-
-        while(sc2.hasNextLine()){
-            String linha = sc2.nextLine();
+        while (sc.hasNextLine()){
+            String linha = sc.nextLine();
             String [] array = linha.split(";");
 
-            for (int i = 0; i < arrayAnimal.length; i++){
-                if(!(array[4].equalsIgnoreCase(arrayAnimal[i]))){
-                   arrayAnimal[i] = array[4];
+            if(array[3].equals(id) && itensDaLinha[2].equals("APADRINHAMENTO")){
+                padrinhosCounter++;
+                clientID = array[5];
+                eventName = array[4];
+
+                File fileOther = new File(./Files/clientes.csv);
+
+                Scanner in = new Scanner(fileOther);
+
+                while(in.hasNextLine()){
+                    String linhaClient = in.nextLine();
+                    String [] arrayClient = linhaClient.split(";");
+
+                    if(arrayClient[0].equals(clientID)){
+                        clientName = arrayClient[1];
+                        clientEmail = arrayClient[3];
+                    }
                 }
             }
 
-            for (int i = 0; i < arrayAnimal.length; i++){
-                System.out.println(arrayAnimal[i]);
-            }
+            System.out.println("--------------------------------------------");
+            System.out.println("Nome do cliente: " + nomeCliente + " (" + email + ")");
+            System.out.println("Valor mensal pago: " + valorPago);
+            System.out.println("Plano de Apadrinhamento: " + nomeEvento);
+            System.out.println("--------------------------------------------");
+
+        }
+
+        if(!exists){
+            System.out.println("O animal não existe.");
         }
     }
+
+//    public static void maisPopular() throws IOException{
+//
+//        File file = new File("./files/interacoes.csv");
+//
+//        Scanner scArraySize = new Scanner(file);
+//
+//        int counterAnimal = 0;
+//
+//        while(scArraySize.hasNextLine()){
+//            scArraySize.nextLine();
+//            counterAnimal++;
+//        }
+//
+//        String [] idAnimais = new String[counterAnimal];
+//
+//        Scanner scFillArray = new Scanner(file);
+//
+//        System.out.println("==================== IDs Gerais ====================");
+//
+//        int index = 0;
+//
+//        while(scFillArray.hasNextLine()){
+//            String linha = scFillArray.nextLine();
+//            String [] array = linha.split(";");
+//
+//            for (int i = 0; i < idAnimais.length; i++){
+//                if(!(array[3].equalsIgnoreCase(idAnimais[i]))){
+//                    idAnimais[i] = array[3];
+//                }
+//            }
+//
+//            for (int i = 0; i < 1; i++){
+//                System.out.println(idAnimais[i]);
+//            }
+//        }
+//
+//        System.out.println("====================================================");
+//
+//        String [] idUniqueAnimais = new String[counterAnimal];
+//
+//        idUniqueAnimais[0] = idAnimais[0];
+//
+//        for (int i = 0; i < idAnimais.length; i++){
+//            for (int j = 0; j < idUniqueAnimais.length; j++) {
+//                if(!(idAnimais[i].equalsIgnoreCase(idUniqueAnimais[j]))){
+//                    idUniqueAnimais[i] = idAnimais[i];
+//                }
+//            }
+//        }
+//
+//        System.out.println("==================== IDs Unicos ====================");
+//
+//        for (int i = 0; i < idUniqueAnimais.length; i++){
+//            System.out.println(idUniqueAnimais[i]);
+//        }
+//
+//        System.out.println("====================================================");
+//
+//    }
 
     public static void receitaTotal() throws IOException{
 
@@ -303,13 +379,13 @@ public class Main {
                     receitaTotal();
                     break;
                 case 4:
-                    maisPopular();
+                    // maisPopular();
                     break;
                 case 5:
                     // topTresApadrinhamento();
                     break;
                 case 6:
-                    // listarPadrinhos();
+                    listarPadrinhos();
                     break;
                 case 7:
                     // espetaculoMaisRentavel();
