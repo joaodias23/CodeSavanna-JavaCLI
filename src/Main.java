@@ -6,6 +6,57 @@ import java.util.Scanner;
 
 public class Main {
 
+    public static void rankingExtincao() throws IOException{
+
+    }
+
+    public static void espetaculoMaisRentavel() throws IOException{
+
+        File file = new File("./files/interacoes.csv");
+
+        Scanner sc = new Scanner(file);
+
+        String [] newArray = new String[50];
+        String [] newArrayValues = new String[50];
+
+        int index = 0;
+
+        while(sc.hasNextLine()){
+            String line = sc.nextLine();
+            String [] array = line.split(";");
+
+            if(array[2].equalsIgnoreCase("ESPETACULO")){
+                newArray[index] = array[4];
+                newArrayValues[index] = array[5];
+                index++;
+            }
+        }
+
+        double mostProfitable = 0.0;
+        String best = "";
+
+        for (int i = 0; i < index; i++) {
+
+            double total = 0;
+
+            for (int j = 0; j < index; j++){
+                if(newArray[i].equalsIgnoreCase(newArray[j])){
+                    total += Double.parseDouble(newArrayValues[j]);
+                }
+            }
+
+            if(total > mostProfitable){
+                mostProfitable = total;
+                best = newArray[i];
+            }
+        }
+
+        System.out.println("\n============================= MAIS RENTAVEL =============================\n");
+        System.out.println(mostProfitable + " moneys");
+        System.out.println(best);
+        System.out.println("\n=========================================================================");
+    }
+
     public static void listarPadrinhos() throws IOException{
 
         File file = new File("./files/interacoes.csv");
@@ -30,10 +81,12 @@ public class Main {
 
             if(array[3].equals(id) && array[2].equals("APADRINHAMENTO")){
                 padrinhosCounter++;
-                clientID = array[5];
+                clientID = array[1];
                 eventName = array[4];
+                exists = true;
+                valorPago = Double.parseDouble(array[5]);
 
-                File fileOther = new File("./Files/clientes.csv");
+                File fileOther = new File("./files/clientes.csv");
 
                 Scanner in = new Scanner(fileOther);
 
@@ -46,14 +99,13 @@ public class Main {
                         clientEmail = arrayClient[3];
                     }
                 }
+
+                System.out.println("--------------------------------------------");
+                System.out.println("Nome do cliente: " + clientID + " (" + clientEmail + ")");
+                System.out.println("Valor mensal pago: " + valorPago);
+                System.out.println("Plano de Apadrinhamento: " + eventName);
+                System.out.println("--------------------------------------------");
             }
-
-            System.out.println("--------------------------------------------");
-            System.out.println("Nome do cliente: " + clientID + " (" + clientEmail + ")");
-            System.out.println("Valor mensal pago: " + valorPago);
-            System.out.println("Plano de Apadrinhamento: " + eventName);
-            System.out.println("--------------------------------------------");
-
         }
 
         if(!exists){
@@ -162,11 +214,11 @@ public class Main {
         }
 
         System.out.println("\n============================= RECEITA TOTAL =============================");
-        System.out.println("Total De Interações: " + totalMoneyCounter);
-        System.out.println("Visitas money: " + totalMoneyVisita);
-        System.out.println("Espetáculos money: " + totalMoneyEspetaculo);
-        System.out.println("Alimentação money: " + totalMoneyAlimentacao);
-        System.out.println("Apadrinhamento money: " + totalMoneyApadrinhamento);
+        System.out.println("Total De Interações: " + totalMoneyCounter + "€");
+        System.out.println("Visitas money: " + totalMoneyVisita + "€");
+        System.out.println("Espetáculos money: " + totalMoneyEspetaculo + "€");
+        System.out.println("Alimentação money: " + totalMoneyAlimentacao + "€");
+        System.out.println("Apadrinhamento money: " + totalMoneyApadrinhamento + "€");
         System.out.println("===================================================================");
 
     }
@@ -211,12 +263,12 @@ public class Main {
             totalCounter++;
         }
 
-        System.out.println("\n============================= LISTA DE INTERAÇOES =============================");
-        System.out.println("Total De Interações: " + totalCounter + "€");
-        System.out.println("Visitas: " + totalVisita + "€");
-        System.out.println("Espetáculos: " + totalEspetaculo + "€");
-        System.out.println("Alimentação: " + totalAlimentacao + "€");
-        System.out.println("Apadrinhamento: " + totalApadrinhamento + "€");
+        System.out.println("\n============================= ESTATISTICAS GERAIS =============================");
+        System.out.println("Total De Interações: " + totalCounter);
+        System.out.println("Visitas: " + totalVisita);
+        System.out.println("Espetáculos: " + totalEspetaculo);
+        System.out.println("Alimentação: " + totalAlimentacao);
+        System.out.println("Apadrinhamento: " + totalApadrinhamento);
         System.out.println("===================================================================");
 
     }
@@ -227,7 +279,7 @@ public class Main {
 
         Scanner sc = new Scanner(file);
 
-        System.out.println("============================= LISTA DE INTERAÇOES =============================");
+        System.out.println("============================= LISTA DE ANIMAIS =============================");
         while (sc.hasNextLine()) {
             String linha = sc.nextLine();
             String [] array = linha.split(";");
@@ -247,7 +299,7 @@ public class Main {
         while (sc.hasNextLine()) {
             String linha = sc.nextLine();
             String [] array = linha.split(";");
-            System.out.println("| " + array[0] + " | " + array[1] + " | " + array[2] + " | " + array[3] + " | " + array[4] + " | " + array[5] + " |");
+            System.out.println("| " + array[0] + " | " + array[1] + " | " + array[2] + " | " + array[3] + " |");
 
         }
         System.out.println("===================================================================");
@@ -259,11 +311,11 @@ public class Main {
 
         Scanner sc = new Scanner(file);
 
-        System.out.println("============================= LISTA DE ANIMAIS =============================");
+        System.out.println("============================= LISTA DE INTERACOES =============================");
         while (sc.hasNextLine()) {
             String linha = sc.nextLine();
             String [] array = linha.split(";");
-            System.out.println("| " + array[0] + " | " + array[1] + " | " + array[2] + " | " + array[3] + " | " + array[4] + " | " + array[5] + " |");
+            System.out.println("| " + array[0] + " | " + array[1] + " | " + array[2] + " | " + array[3] + " | " + array[4] + " | " + array[5] + " | " + array[6] + " |");
 
         }
         System.out.println("===================================================================");
@@ -388,7 +440,7 @@ public class Main {
                     listarPadrinhos();
                     break;
                 case 7:
-                    // espetaculoMaisRentavel();
+                    espetaculoMaisRentavel();
                     break;
                 case 8:
                     // rankingExtincao();
