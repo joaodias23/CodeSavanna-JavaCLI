@@ -28,12 +28,12 @@ public class Main {
             String linha = sc.nextLine();
             String [] array = linha.split(";");
 
-            if(array[3].equals(id) && itensDaLinha[2].equals("APADRINHAMENTO")){
+            if(array[3].equals(id) && array[2].equals("APADRINHAMENTO")){
                 padrinhosCounter++;
                 clientID = array[5];
                 eventName = array[4];
 
-                File fileOther = new File(./Files/clientes.csv);
+                File fileOther = new File("./Files/clientes.csv");
 
                 Scanner in = new Scanner(fileOther);
 
@@ -49,9 +49,9 @@ public class Main {
             }
 
             System.out.println("--------------------------------------------");
-            System.out.println("Nome do cliente: " + nomeCliente + " (" + email + ")");
+            System.out.println("Nome do cliente: " + clientID + " (" + clientEmail + ")");
             System.out.println("Valor mensal pago: " + valorPago);
-            System.out.println("Plano de Apadrinhamento: " + nomeEvento);
+            System.out.println("Plano de Apadrinhamento: " + eventName);
             System.out.println("--------------------------------------------");
 
         }
