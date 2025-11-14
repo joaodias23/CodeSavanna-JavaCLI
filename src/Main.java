@@ -1,13 +1,223 @@
 
-// CodeSavanna
+// CodeSavanna || Under Construction || Ignore All Stupid Code
 
 import java.io.*;
 import java.util.Scanner;
 
 public class Main {
 
+    public static void estatisticasHabitat() throws IOException{
+
+        File file = new File("./files/animais.csv");
+
+        Scanner sc = new Scanner(file);
+
+        if(sc.hasNextLine()){
+            sc.nextLine();
+        }
+
+        String [] allHabitatsArray = new String[40];
+        String [] uniqueHabitatsArray = new String[40];
+        int index = 0;
+        int newIndex = 0;
+
+        while(sc.hasNextLine()){
+            String line = sc.nextLine();
+            String [] array = line.split(";");
+
+            allHabitatsArray[index] = array[3];
+            index++;
+        }
+
+        for (int i = 0; i < index; i++) {
+
+            boolean exists = false;
+
+            for (int j = 0; j < newIndex; j++) {
+                if(allHabitatsArray[i].equals(uniqueHabitatsArray[j])){
+                    exists = true;
+                    break;
+                }
+            }
+
+            if(!exists){
+                uniqueHabitatsArray[newIndex] = allHabitatsArray[i];
+                newIndex++;
+            }
+        }
+
+        File file1 = new File("./files/animais.csv");
+
+        int otherIndex = 0;
+
+        int [] uniqueHabitatCounter = new int[40];
+
+        while (otherIndex < newIndex){
+            Scanner sc1 = new Scanner(file1);
+
+            if(sc1.hasNextLine()){
+                sc1.nextLine();
+            }
+
+            int totalzinho = 0;
+
+            while(sc1.hasNextLine()){
+                String line = sc1.nextLine();
+                String [] arrayCounter = line.split(";");
+
+                if(uniqueHabitatsArray[otherIndex].equals(arrayCounter[3])){
+                    totalzinho++;
+                }
+            }
+
+            uniqueHabitatCounter[otherIndex] = totalzinho;
+            otherIndex++;
+        }
+
+//        File file2 = new File("./files/animais.csv");
+//
+//        Scanner sc3 = new Scanner(file2);
+//
+//        int [] uniqueInteractionCounter = new int[40];
+//
+//        if(sc3.hasNextLine()){
+//            sc3.nextLine();
+//        }
+//
+//        String [] arrozinho = new String[40];
+//        int superIndex = 0;
+//
+//        while(sc3.hasNextLine()){
+//            String linhosa = sc3.nextLine();
+//            String [] arroz = linhosa.split(";");
+//
+//            if(uniqueHabitatsArray[superIndex].equals(arroz[3])){
+//
+//                arrozinho[superIndex] = arroz[0];
+//
+//                superIndex++;
+//
+//                File file3 = new File("./files/interacoes.csv");
+//
+//                Scanner sc4 = new Scanner(file3);
+//
+//                if(sc4.hasNextLine()){
+//                    sc4.nextLine();
+//                }
+//                for (int h = 0; h < newIndex; h++) {
+//                    int interacoesCounter = 0;
+//                    for (int i = 0; i < arrozinho.length; i++){
+//
+//                        if(!(arrozinho[i] == null)){
+//                            while(sc4.hasNextLine()){
+//                                String linheira = sc4.nextLine();
+//                                String [] arrasou = linheira.split(";");
+//
+//                                if(arrozinho[i].equals(arrasou[3])){
+//                                    interacoesCounter++;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    uniqueInteractionCounter[superIndex - 1] = interacoesCounter;
+//                }
+//            }
+//        }
+
+        for (int i = 0; i < otherIndex; i++) {
+            System.out.println("Habitat: " + uniqueHabitatsArray[i]);
+            System.out.println("Animais No Habitat: " + uniqueHabitatCounter[i]);
+//            System.out.println("Interacoes: " + uniqueInteractionCounter[i]);
+        }
+
+    }
+
     public static void rankingExtincao() throws IOException{
 
+        File file = new File("./files/animais.csv");
+
+        Scanner sc = new Scanner(file);
+
+        String [] array = new String[25];
+        String [] arrayOfIds = new String[25];
+        int [] arrayOfInterCount = new int[25];
+        double [] arrayOfMoneyCount = new double[25];
+        String [] arrayOfRespectiveID = new String[25];
+        String [] arrayOfNomeAnimal = new String[25];
+        int index = 0;
+
+        while(sc.hasNextLine()){
+            String line = sc.nextLine();
+            String [] arrayzaco = line.split(";");
+
+            // array com ids e com o estado extinçao SIM, mesmos indices
+            if(arrayzaco[5].equals("SIM")){
+                array[index] = arrayzaco[5];
+                arrayOfIds[index] = arrayzaco[0];
+                index++;
+
+
+                File file1 = new File("./files/interacoes.csv");
+
+                Scanner scInter = new Scanner(file1);
+
+                int totalInter = 0;
+                double totalMoney = 0.0;
+
+                while(scInter.hasNextLine()){
+                    String linha = scInter.nextLine();
+                    String [] inter = linha.split(";");
+
+                    if(arrayOfIds[index - 1].equals(inter[3])){
+                        totalInter++;
+                        totalMoney += Double.parseDouble(inter[5]);
+                    }
+                }
+                arrayOfInterCount[index - 1] = totalInter;
+                arrayOfMoneyCount[index - 1] = totalMoney;
+                arrayOfRespectiveID[index - 1] = arrayOfIds[index - 1];
+                arrayOfNomeAnimal[index - 1] = arrayzaco[1] + " " + arrayzaco[2];
+            }
+        }
+
+        for (int i = 0; i < arrayOfInterCount.length - 1; i++) {
+            for (int j = 0; j < arrayOfInterCount.length - 1; j++) {
+                if(arrayOfInterCount[j]>arrayOfInterCount[j+1]){
+                    int temp = arrayOfInterCount[j];
+                    arrayOfInterCount[j] = arrayOfInterCount[j+1];
+                    arrayOfInterCount[j+1] = temp;
+
+                    double tempo = arrayOfMoneyCount[j];
+                    arrayOfMoneyCount[j] = arrayOfMoneyCount[j+1];
+                    arrayOfMoneyCount[j+1] = tempo;
+
+                    String tempinho = arrayOfRespectiveID[j];
+                    arrayOfRespectiveID[j] = arrayOfRespectiveID[j+1];
+                    arrayOfRespectiveID[j+1] = tempinho;
+
+                    String tempoleca = arrayOfNomeAnimal[j];
+                    arrayOfNomeAnimal[j] = arrayOfNomeAnimal[j+1];
+                    arrayOfNomeAnimal[j+1] = tempoleca;
+                }
+            }
+        }
+
+        int rankCounter = 1;
+
+        System.out.println("======================= RANKING DE ESPECIES QUASE NO FIM =======================");
+        for (int i = arrayOfInterCount.length - 1; i >= 0; i--) {
+            if(!(arrayOfNomeAnimal[i] == null)){
+                System.out.println("\n============================================================");
+                System.out.println("RANKING " + rankCounter);
+                System.out.println("Nome Animal: " + arrayOfNomeAnimal[i]);
+                System.out.println("ID: " + arrayOfRespectiveID[i]);
+                System.out.println("Interações: " + arrayOfInterCount[i]);
+                System.out.println("Valor Pago: " + arrayOfMoneyCount[i]);
+                System.out.println("============================================================");
+                rankCounter++;
+            }
+        }
+        System.out.println("=======================================================================================");
     }
 
     public static void espetaculoMaisRentavel() throws IOException{
@@ -112,6 +322,10 @@ public class Main {
             System.out.println("O animal não existe.");
         }
     }
+
+//    public static void topTresApadrinhamento() throws IOException{
+//
+//    }
 
 //    public static void maisPopular() throws IOException{
 //
@@ -443,10 +657,10 @@ public class Main {
                     espetaculoMaisRentavel();
                     break;
                 case 8:
-                    // rankingExtincao();
+                    rankingExtincao();
                     break;
                 case 9:
-                    // estatisticasHabitat();
+                    estatisticasHabitat();
                     break;
                 default:
                     System.out.println("\nOpção Inválida");
