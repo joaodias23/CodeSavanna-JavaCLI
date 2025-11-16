@@ -1,10 +1,302 @@
 
-// CodeSavanna || Under Construction || VITOR SE ESTIVERES A VER ISTO IGNORA AS HELPER FUNCTIONS, APENAS CONFIA QUE ESTAO OTIMAS E OTIMIZADAS!
+// CodeSavanna
 
 import java.io.*;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+
+    public static void jogoEspecie() throws  IOException{
+        File file = new File("./files/animais.csv");
+
+        Scanner sc = new Scanner(file);
+
+        if(sc.hasNextLine()){
+            sc.nextLine();
+        }
+
+        int lineCounter = 0;
+        String chosenAnimal = "";
+        String habitat = "";
+        String diet = "";
+        String extincao = "";
+        String tentativa = "";
+        int tentativas = 0;
+
+        while(sc.hasNextLine()){
+            sc.nextLine();
+            lineCounter++;
+        }
+        sc.close();
+
+        Random random = new Random();
+        int correctLine = random.nextInt(lineCounter);
+
+        Scanner sc2 = new Scanner(file);
+
+        if (sc2.hasNextLine()) {
+            sc2.nextLine();
+        }
+
+        int currentLine = 0;
+
+        while(sc2.hasNextLine()){
+            String line = sc2.nextLine();
+            String [] arrayLine = line.split(";");
+
+            if(correctLine==currentLine){
+                chosenAnimal = arrayLine[2];
+                habitat = arrayLine[3];
+                diet = arrayLine[4];
+                extincao = arrayLine[5];
+                break;
+            }
+
+            currentLine++;
+        }
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("PISTA 1: " + habitat);
+        System.out.println("PISTA 2: " + diet);
+        System.out.println("PISTA 3: " + extincao);
+
+        while(true){
+            System.out.print("Qual é a espécie? ");
+            tentativa = input.nextLine();
+            tentativas++;
+
+            if(tentativa.equalsIgnoreCase(chosenAnimal)){
+                System.out.println("ACERTOU MISERAVII! Acertou em " + tentativas + " tentativa(s)");
+                break;
+            } else {
+                System.out.println("Errado! Vai de novo filho");
+            }
+        }
+    }
+
+    public static void simularApadrinhamento() throws IOException{
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Como é que se chama? ");
+        String nome = input.nextLine();
+        System.out.print("Qual é o seu email? ");
+        String email = input.nextLine();
+        System.out.print("Escolha um animal (A01-32): ");
+        String escolha = input.nextLine();
+        System.out.print("Quanto pretende pagar por mês? (Introduza apenas o montante): ");
+        double pagamento = input.nextDouble();
+
+        String plano = "";
+        String animal = "";
+        String especie = "";
+        String habitat = "";
+
+        if(pagamento <= 25.0){
+            plano = "Apadrinhamento Simples";
+        }
+
+        if(pagamento > 25.0 && pagamento <= 50.0){
+            plano = "Apadrinhamento Gold";
+        }
+
+        if(pagamento > 50.0){
+            plano = "Apadrinhamento Diamond";
+        }
+
+        File file = new File("./files/animais.csv");
+        Scanner sc = new Scanner(file);
+
+        if(sc.hasNextLine()){
+            sc.nextLine();
+        }
+
+        while(sc.hasNextLine()){
+            String linha = sc.nextLine();
+            String [] array = linha.split(";");
+
+            if(escolha.equals(array[0])){
+                animal = array[1];
+                especie = array[2];
+                habitat = array[3];
+            }
+        }
+
+        System.out.println("Resumo do Apadrinhamento:");
+        System.out.println("Padrinho(a): " + nome + " (" + email + ")");
+        System.out.println("Animal: " + animal + " (" + especie + ") - " + habitat);
+        System.out.println("Plano: " + plano);
+        System.out.println("Valor: " + pagamento + "€/mês");
+    }
+
+    public static void atividadesAnimal() throws IOException{
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Introduza um ID (A01-32): ");
+        String id = input.nextLine();
+
+        boolean exists = false;
+
+        File file = new File("./files/animais.csv");
+        Scanner sc = new Scanner(file);
+
+        if(sc.hasNextLine()){
+            sc.nextLine();
+        }
+
+        while(sc.hasNextLine()){
+            String linha = sc.nextLine();
+            String [] array = linha.split(";");
+
+            if(array[0].equals(id)){
+                System.out.println("Atividades do animal " + array[1] + "(" + array[2] + ")");
+                exists = true;
+
+                String [] nomeEspetaculo = new String[40];
+                int [] countEspetaculo = new int[40];
+                int espetaculoCounter = 0;
+
+                String [] nomeAlimentacao = new String[40];
+                int [] countAlimentation = new int[40];
+                int alimentacaoCounter = 0;
+
+                File fileInter = new File("./files/interacoes.csv");
+                Scanner inter = new Scanner(fileInter);
+
+                if (inter.hasNextLine()){
+                    inter.nextLine();
+                }
+
+                while(inter.hasNextLine()){
+                    String lineInter = inter.nextLine();
+                    String [] arrayInter = lineInter.split(";");
+
+                    if(arrayInter[3].equals(array[0]) && arrayInter[2].equals("ESPETACULO")){
+
+                        boolean found = false;
+
+                        for (int i = 0; i < espetaculoCounter; i++) {
+                            if (nomeEspetaculo[i].equals(arrayInter[4])) {
+                                countEspetaculo[i]++;
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found) {
+                            nomeEspetaculo[espetaculoCounter] = arrayInter[4];
+                            countEspetaculo[espetaculoCounter] = 1;
+                            espetaculoCounter++;
+                        }
+                    }
+
+                    if(arrayInter[3].equals(array[0]) && arrayInter[2].equals("ALIMENTACAO")){
+
+                        boolean found = false;
+
+                        for (int i = 0; i < alimentacaoCounter; i++) {
+                            if (nomeAlimentacao[i].equals(arrayInter[4])) {
+                                countAlimentation[i]++;
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found) {
+                            nomeAlimentacao[alimentacaoCounter] = arrayInter[4];
+                            countAlimentation[alimentacaoCounter] = 1;
+                            alimentacaoCounter++;
+                        }
+                    }
+                }
+
+                System.out.println("\"ESPETAAACUULOOO\" - Fernando Mendes:");
+                for (int i = 0; i < espetaculoCounter; i++) {
+                    System.out.println("- " + nomeEspetaculo[i] + " (" + countEspetaculo[i] + " vezes)");
+                }
+
+                System.out.println("Alimentacao - Fernando Mendes tambem acho eu:");
+                for (int i = 0; i < alimentacaoCounter; i++) {
+                    System.out.println("- " + nomeAlimentacao[i] + " (" + countAlimentation[i] + " vezes)");
+                }
+            }
+        }
+
+        if(!exists){
+            System.out.println("Animal não existe");
+        }
+    }
+
+    public static void catalogoAnimais() throws IOException{
+
+        File file = new File("./files/animais.csv");
+
+        Scanner sc = new Scanner(file);
+
+        if(sc.hasNextLine()){
+            sc.nextLine();
+        }
+
+        String [] allHabitatsArray = new String[40];
+        String [] uniqueHabitatsArray = new String[40];
+        int index = 0;
+        int newIndex = 0;
+
+        while(sc.hasNextLine()){
+            String line = sc.nextLine();
+            String [] array = line.split(";");
+
+            allHabitatsArray[index] = array[3];
+            index++;
+        }
+
+        for (int i = 0; i < index; i++) {
+
+            boolean exists = false;
+
+            for (int j = 0; j < newIndex; j++) {
+                if(allHabitatsArray[i].equals(uniqueHabitatsArray[j])){
+                    exists = true;
+                    break;
+                }
+            }
+
+            if(!exists){
+                uniqueHabitatsArray[newIndex] = allHabitatsArray[i];
+                newIndex++;
+            }
+        }
+
+        File file1 = new File("./files/animais.csv");
+
+        int otherIndex = 0;
+
+        for (int i = 0; i < newIndex; i++) {
+
+            System.out.println("*** " + uniqueHabitatsArray[otherIndex] + " ***");
+
+            Scanner sc1 = new Scanner(file1);
+
+            if(sc1.hasNextLine()){
+                sc1.nextLine();
+            }
+
+            while(sc1.hasNextLine()){
+                String line = sc1.nextLine();
+                String [] arrayCounter = line.split(";");
+
+                if(uniqueHabitatsArray[otherIndex].equals(arrayCounter[3])){
+                    System.out.println("- " + arrayCounter[1] + "(" + arrayCounter[2] + ")");
+
+                }
+            }
+            System.out.println();
+            otherIndex++;
+        }
+    }
 
     public static void estatisticasHabitat() throws IOException{
 
@@ -608,7 +900,7 @@ public class Main {
         System.out.println("==========================================================");
     }
 
-    public static void menuCliente() {
+    public static void menuCliente() throws IOException{
 
         Scanner input = new Scanner(System.in);
 
@@ -629,22 +921,23 @@ public class Main {
             switch (opcao) {
 
                 case 1:
-                    // catalogoAnimais();
+                    catalogoAnimais();
                     break;
 
                 case 2:
-                    // atividadesAnimal();
+                    atividadesAnimal();
                     break;
 
                 case 3:
-                    // simularApadrinhamento();
+                    simularApadrinhamento();
                     break;
 
                 case 4:
-                    // jogoEspecie();
+                    jogoEspecie();
                     break;
 
-                case 0: // Voltar
+                case 0:
+                    System.out.println("Regressando ao menu principal...");
                     break;
 
                 default:
@@ -854,7 +1147,26 @@ public class Main {
                     break;
 
                 case 0:
-                    System.out.println("\nObrigado! Worten sempre...");
+                    System.out.println("\nObrigado! Worten sempre...\n");
+
+                    System.out.println("       .-\"-.            .-\"-.            .-\"-.\n" +
+                            "     _/_-.-_\\_        _/.-.-.\\_        _/.-.-.\\_\n" +
+                            "    / __} {__ \\      /|( o o )|\\      ( ( o o ) )\n" +
+                            "   / //  \"  \\\\ \\    | //  \"  \\\\ |      |/  \"  \\|\n" +
+                            "  / / \\'---'/ \\ \\  / / \\'---'/ \\ \\      \\'/^\\'/\n" +
+                            "  \\ \\_/`\"\"\"`\\_/ /  \\ \\_/`\"\"\"`\\_/ /      /`\\ /`\\\n" +
+                            "   \\           /    \\           /      /  /|\\  \\\n" +
+                            "\n" +
+                            "-={ see no evil }={ hear no evil }={ speak no evil }=-\n");
+
+                    System.out.println("               (¯`·.¸¸.·´¯`·.¸¸.·´¯)");
+                    System.out.println("               ( \\                 / )");
+                    System.out.println("              ( \\ )   Made by:     ( / )");
+                    System.out.println("             ( ) (    João Dias    ) ( )");
+                    System.out.println("              ( / )               ( \\ )");
+                    System.out.println("               ( /                 \\ )");
+                    System.out.println("                (_.·´¯`·.¸¸.·´¯`·.¸_)");
+
                     break;
 
                 default:
