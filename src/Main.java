@@ -1,12 +1,27 @@
 
-// CodeSavanna
+// CodeSavanna © - Made By: João Dias
 
+/**
+ * Guia para comentário de função:
+ * - O que é
+ * - O que faz
+ * - Error handle
+ * [No params, No returns]
+ */
+
+// Imports
 import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
+// Início class
 public class Main {
 
+    /**
+     * Jogo: Adivinha a espécie
+     * Dá pistas e tem que se adivinhar a espécie escolhida aleatoriamente
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void jogoEspecie() throws  IOException{
         File file = new File("./files/animais.csv");
 
@@ -72,15 +87,20 @@ public class Main {
             tentativas++;
 
             if(tentativa.equalsIgnoreCase(chosenAnimal)){
-                System.out.println("=== ACERTOU MISERAVII! Acertou em " + tentativas + " tentativa(s)");
+                System.out.println("=== ACERTOU MISERAVII! Foram só " + tentativas + " tentativa(s)");
                 break;
             } else {
-                System.out.println("=== Errado! Vai de novo filho");
+                System.out.println("=== Errado! A este ponto mais vale desistir...");
             }
         }
         System.out.println("==============================================================");
     }
 
+    /**
+     * Simulação de apadrinhamento
+     * É como se fosse um apadrinhamento real, mas a fingir
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void simularApadrinhamento() throws IOException{
 
         Scanner input = new Scanner(System.in);
@@ -142,6 +162,11 @@ public class Main {
         System.out.println("=================================================================");
     }
 
+    /**
+     * Mostra as atividades de um animal
+     * Lista os espetáculos e alimentações e quantas vezes acontecem
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void atividadesAnimal() throws IOException{
 
         Scanner input = new Scanner(System.in);
@@ -154,6 +179,22 @@ public class Main {
         boolean exists = false;
 
         File file = new File("./files/animais.csv");
+
+        Scanner scCount = new Scanner(file);
+
+        int count = 0;
+
+        if(scCount.hasNextLine()){
+            scCount.nextLine();
+        }
+
+        while(scCount.hasNextLine()) {
+            scCount.nextLine();
+            count++;
+        }
+
+        scCount.close();
+
         Scanner sc = new Scanner(file);
 
         if(sc.hasNextLine()){
@@ -168,12 +209,12 @@ public class Main {
                 System.out.println("=== Atividade Do Animal: " + array[1] + "(" + array[2] + ")");
                 exists = true;
 
-                String [] nomeEspetaculo = new String[40];
-                int [] countEspetaculo = new int[40];
+                String [] nomeEspetaculo = new String[count];
+                int [] countEspetaculo = new int[count];
                 int espetaculoCounter = 0;
 
-                String [] nomeAlimentacao = new String[40];
-                int [] countAlimentation = new int[40];
+                String [] nomeAlimentacao = new String[count];
+                int [] countAlimentation = new int[count];
                 int alimentacaoCounter = 0;
 
                 File fileInter = new File("./files/interacoes.csv");
@@ -244,9 +285,32 @@ public class Main {
         }
     }
 
+    /**
+     * Catálogo dos animais por habitat
+     * Lista todos os animais agrupados por habitat
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void catalogoAnimais() throws IOException{
 
         File file = new File("./files/animais.csv");
+
+        Scanner scCount = new Scanner(file);
+
+        int count = 0;
+
+        if(scCount.hasNextLine()){
+            scCount.nextLine();
+        }
+
+        while(scCount.hasNextLine()) {
+            scCount.nextLine();
+            count++;
+        }
+
+        scCount.close();
+
+        String [] allHabitatsArray = new String[count];
+        String [] uniqueHabitatsArray = new String[count];
 
         Scanner sc = new Scanner(file);
 
@@ -254,8 +318,6 @@ public class Main {
             sc.nextLine();
         }
 
-        String [] allHabitatsArray = new String[40];
-        String [] uniqueHabitatsArray = new String[40];
         int index = 0;
         int newIndex = 0;
 
@@ -315,9 +377,32 @@ public class Main {
         System.out.println("\n=================================================================");
     }
 
+    /**
+     * Estatísticas por habitat
+     * Conta os animais por habitat, as interações e a receita total
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void estatisticasHabitat() throws IOException{
 
         File file = new File("./files/animais.csv");
+
+        Scanner scCount = new Scanner(file);
+
+        int count = 0;
+
+        if(scCount.hasNextLine()){
+            scCount.nextLine();
+        }
+
+        while(scCount.hasNextLine()) {
+            scCount.nextLine();
+            count++;
+        }
+
+        scCount.close();
+
+        String [] allHabitatsArray = new String[count];
+        String [] uniqueHabitatsArray = new String[count];
 
         Scanner sc = new Scanner(file);
 
@@ -325,8 +410,6 @@ public class Main {
             sc.nextLine();
         }
 
-        String [] allHabitatsArray = new String[40];
-        String [] uniqueHabitatsArray = new String[40];
         int index = 0;
         int newIndex = 0;
 
@@ -359,9 +442,9 @@ public class Main {
 
         int otherIndex = 0;
 
-        int [] animalCounter = new int[40];
-        int [] interCounter = new int[40];
-        double [] moneyCounter = new double[40];
+        int [] animalCounter = new int[count];
+        int [] interCounter = new int[count];
+        double [] moneyCounter = new double[count];
 
         while (otherIndex < newIndex){
             Scanner sc1 = new Scanner(file1);
@@ -419,18 +502,39 @@ public class Main {
         System.out.println("\n====================================================================");
     }
 
+    /**
+     * Ranking de animais em perigo de extinção
+     * Procura os animais com pouco HP, calcula as interações e quanto geraram, e apresenta o ranking
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void rankingExtincao() throws IOException{
 
         File file = new File("./files/animais.csv");
 
+        Scanner scCount = new Scanner(file);
+
+        int count = 0;
+
+        if(scCount.hasNextLine()){
+            scCount.nextLine();
+        }
+
+        while(scCount.hasNextLine()) {
+            scCount.nextLine();
+            count++;
+        }
+
+        scCount.close();
+
+        String [] array = new String[count];
+        String [] arrayOfIds = new String[count];
+        int [] arrayOfInterCount = new int[count];
+        double [] arrayOfMoneyCount = new double[count];
+        String [] arrayOfRespectiveID = new String[count];
+        String [] arrayOfNomeAnimal = new String[count];
+
         Scanner sc = new Scanner(file);
 
-        String [] array = new String[25];
-        String [] arrayOfIds = new String[25];
-        int [] arrayOfInterCount = new int[25];
-        double [] arrayOfMoneyCount = new double[25];
-        String [] arrayOfRespectiveID = new String[25];
-        String [] arrayOfNomeAnimal = new String[25];
         int index = 0;
 
         while(sc.hasNextLine()){
@@ -507,15 +611,35 @@ public class Main {
         System.out.println("\n===================================================================");
     }
 
+    /**
+     * Lista única do espetáculo que mais rende
+     * Soma as receitas de cada espetáculo e identifica o que gerou mais lucro e o animal em destaque
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void espetaculoMaisRentavel() throws IOException{
 
         File file = new File("./files/interacoes.csv");
 
-        Scanner sc = new Scanner(file);
+        Scanner scCount = new Scanner(file);
 
-        String [] newArray = new String[50];
-        String [] newArrayValues = new String[50];
-        String [] newArrayIds = new String[50];
+        int count = 0;
+
+        if(scCount.hasNextLine()){
+            scCount.nextLine();
+        }
+
+        while(scCount.hasNextLine()) {
+            scCount.nextLine();
+            count++;
+        }
+
+        scCount.close();
+
+        String [] newArray = new String[count];
+        String [] newArrayValues = new String[count];
+        String [] newArrayIds = new String[count];
+
+        Scanner sc = new Scanner(file);
 
         int index = 0;
 
@@ -578,6 +702,11 @@ public class Main {
         System.out.println("====================================================================");
     }
 
+    /**
+     * Lista dos padrinhos de um animal
+     * Procura apadrinhamentos, identifica os clientes e o valor mensal pago
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void listarPadrinhos() throws IOException{
 
         File file = new File("./files/interacoes.csv");
@@ -639,22 +768,42 @@ public class Main {
         }
     }
 
+    /**
+     * Registo do top 3 espécies com mais apadrinhamentos
+     * Conta os apadrinhamentos e mostra o top 3 com o valor total mensal associado
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void topTresApadrinhamento() throws IOException{
 
         File file = new File("./files/animais.csv");
         File fileInter = new File("./files/interacoes.csv");
+
+        Scanner scCount = new Scanner(file);
+
+        int count = 0;
+
+        if(scCount.hasNextLine()){
+            scCount.nextLine();
+        }
+
+        while(scCount.hasNextLine()) {
+            scCount.nextLine();
+            count++;
+        }
+
+        scCount.close();
+
+        String [] idsAnimais = new String [count];
+        String [] especie = new String[count];
+        int [] arrayDeContagemApadrinhamento = new int[count];
+        double [] arrayDeContagemValorPago = new double[count];
+        int index = 0;
 
         Scanner sc = new Scanner(file);
 
         if(sc.hasNextLine()){
             sc.nextLine();
         }
-
-        String [] idsAnimais = new String [50];
-        String [] especie = new String[50];
-        int [] arrayDeContagemApadrinhamento = new int[50];
-        double [] arrayDeContagemValorPago = new double[50];
-        int index = 0;
 
         while(sc.hasNextLine()){
             String linha = sc.nextLine();
@@ -721,21 +870,41 @@ public class Main {
         System.out.println("====================================================");
     }
 
+    /**
+     * Registo do animal mais popular
+     * Conta interações por animal e mostra o mais escolhido pelos clientes
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void maisPopular() throws IOException{
 
         File file = new File("./files/animais.csv");
         File fileInter = new File("./files/interacoes.csv");
+
+        Scanner scCount = new Scanner(file);
+
+        int count = 0;
+
+        if(scCount.hasNextLine()){
+            scCount.nextLine();
+        }
+
+        while(scCount.hasNextLine()) {
+            scCount.nextLine();
+            count++;
+        }
+
+        scCount.close();
+
+        String [] idsAnimais = new String [count];
+        String [] nomeEspecie = new String[count];
+        int [] arrayDeContagem = new int[count];
+        int index = 0;
 
         Scanner sc = new Scanner(file);
 
         if(sc.hasNextLine()){
             sc.nextLine();
         }
-
-        String [] idsAnimais = new String [50];
-        String [] nomeEspecie = new String[50];
-        int [] arrayDeContagem = new int[50];
-        int index = 0;
 
         while(sc.hasNextLine()){
             String linha = sc.nextLine();
@@ -788,6 +957,11 @@ public class Main {
         System.out.println("=====================================================");
     }
 
+    /**
+     * Receita total por tipo de interação
+     * Calcula quanto gerou cada tipo e o total geral
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void receitaTotal() throws IOException{
 
         File file = new File("./files/interacoes.csv");
@@ -839,6 +1013,11 @@ public class Main {
 
     }
 
+    /**
+     * Estatísticas gerais de interações
+     * Conta o total de visitas, espetáculos, alimentações e apadrinhamentos
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void estatisticasGerais() throws IOException{
 
         File file = new File("./files/interacoes.csv");
@@ -889,6 +1068,11 @@ public class Main {
 
     }
 
+    /**
+     * Lista interações
+     * Mostra toda a informação no ficheiro interacoes.csv
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void conteudoInteracoes() throws IOException {
 
         File file = new File("./files/interacoes.csv");
@@ -904,6 +1088,11 @@ public class Main {
         System.out.println("==============================================================");
     }
 
+    /**
+     * Lista clientes
+     * Mostra toda a informação no ficheiro clientes.csv
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void conteudoClientes() throws IOException {
 
         File file = new File("./files/clientes.csv");
@@ -919,6 +1108,11 @@ public class Main {
         System.out.println("============================================================");
     }
 
+    /**
+     * Lista animais
+     * Mostra toda a informação no ficheiro animais.csv
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void conteudoAnimais() throws IOException {
 
         File file = new File("./files/animais.csv");
@@ -934,6 +1128,11 @@ public class Main {
         System.out.println("==========================================================");
     }
 
+    /**
+     * Menu cliente
+     * Fornece funcionalidades para clientes
+     * @throws IOException caso erro de leitura de ficheiro
+     */
     public static void menuCliente() throws IOException{
 
         Scanner input = new Scanner(System.in);
@@ -997,7 +1196,8 @@ public class Main {
 
     /**
      * Menu administrador
-     * Serve para opções com dados sensíveis sobre a gestão do zoo
+     * Serve opções com dados sensíveis sobre a gestão do zoo
+     * @throws IOException caso erro de leitura de ficheiro
      */
     public static void menuAdmin() throws IOException{
 
@@ -1123,6 +1323,7 @@ public class Main {
     /**
      * Menu principal
      * Permite a escolha de perfil e seleciona o menu pretendido com validação de credenciais
+     * @throws IOException caso erro de leitura de ficheiro
      */
     public static void menuLogin() throws IOException{
 
